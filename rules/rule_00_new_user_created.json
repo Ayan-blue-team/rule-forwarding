@@ -1,0 +1,37 @@
+{
+  "name": "New Local User Created",
+  "notes": "Detects when a new local user account is created on Windows Server. Event ID 4720.",
+  "enabled": true,
+  "owner": "admin",
+  "origin": "CUSTOM",
+  "base_host_id": 0,
+  "average_capacity": 0,
+  "capacity_timestamp": 0,
+  "identifier": "CUSTOM_RULE_001",
+  "linked_rule_identifier": null,
+  "creation_date": 1744000000000,
+  "modification_date": 1744000000000,
+  "type": "EVENT",
+  "groups": [],
+  "responses": [
+    {
+      "type": "OFFENSE",
+      "rules": [],
+      "override_default_offense_naming": true,
+      "offense_type": 0,
+      "offense_naming_expression": "New Local User Created: Triggered on $USERNAME",
+      "status": "ENABLED",
+      "include_attacker": true,
+      "include_target": false
+    }
+  ],
+  "building_blocks": [],
+  "tests": [
+    {
+      "group_id": 0,
+      "uid": 1,
+      "negate": false,
+      "text": "when the event QID is contained in the following list: [4720]"
+    }
+  ]
+}
