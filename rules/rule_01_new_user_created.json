@@ -1,0 +1,60 @@
+{
+  "rule": {
+    "id": "SEC-001",
+    "name": "SEC-001 | AD New User Account Created",
+    "description": "Monitors Windows Event ID 4720 - New user account created in AD/Windows",
+    "type": "EVENT",
+    "enabled": true,
+    "group": "Authentication",
+    "notes": "Monitors Windows Event ID 4720 - New user account created in AD/Windows",
+    
+    "conditions": {
+      "operator": "AND",
+      "tests": [
+        {
+          "test_name": "EventQIDTest",
+          "description": "Match User Account Created QIDs",
+          "qids": [
+            { "qid": 98750024,  "name": "User account created" },
+            { "qid": 110250520, "name": "User Account Created" },
+            { "qid": 110252346, "name": "User Account Created" },
+            { "qid": 134000646, "name": "User Account Created" },
+            { "qid": 5000072,   "name": "User Account Created" },
+            { "qid": 72500126,  "name": "User account enabled or created" }
+          ]
+        }
+      ]
+    },
+
+    "actions": {
+      "severity": 5,
+      "credibility": 5,
+      "relevance": 5,
+      "ensure_offense": true,
+      "annotate_event": "New AD User Account Created - Investigate!",
+      "dispatch_new_event": true,
+      "notify": true
+    },
+
+    "response_limiter": {
+      "enabled": true,
+      "max_responses": 1,
+      "interval": 10,
+      "interval_unit": "minutes",
+      "per": "Username"
+    },
+
+    "metadata": {
+      "created_by": "SOC Team",
+      "created_date": "2026-04-21",
+      "version": "1.0",
+      "mitre_attack": {
+        "tactic": "Persistence",
+        "technique": "T1136",
+        "technique_name": "Create Account"
+      },
+      "windows_event_ids": ["4720"],
+      "log_sources": ["Windows Security", "Active Directory"]
+    }
+  }
+}
