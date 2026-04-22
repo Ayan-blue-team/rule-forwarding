@@ -1,0 +1,43 @@
+{
+  "name": "Successful Logon After Multiple Failures",
+  "notes": "Detects a successful login following multiple failed attempts. Indicates possible brute force success. Event ID 4624 after 4625.",
+  "enabled": true,
+  "owner": "admin",
+  "origin": "CUSTOM",
+  "base_host_id": 0,
+  "average_capacity": 0,
+  "capacity_timestamp": 0,
+  "identifier": "CUSTOM_RULE_004",
+  "linked_rule_identifier": null,
+  "creation_date": 1744000000000,
+  "modification_date": 1744000000000,
+  "type": "EVENT",
+  "groups": [],
+  "responses": [
+    {
+      "type": "OFFENSE",
+      "rules": [],
+      "override_default_offense_naming": true,
+      "offense_type": 0,
+      "offense_naming_expression": "Successful Logon After Brute Force: $USERNAME from $SOURCEIP",
+      "status": "ENABLED",
+      "include_attacker": true,
+      "include_target": false
+    }
+  ],
+  "building_blocks": [],
+  "tests": [
+    {
+      "group_id": 0,
+      "uid": 1,
+      "negate": false,
+      "text": "when the event QID is contained in the following list: [4624]"
+    },
+    {
+      "group_id": 0,
+      "uid": 2,
+      "negate": false,
+      "text": "when the preceding event count for QID 4625 is greater than 3 in 10 minutes"
+    }
+  ]
+}
