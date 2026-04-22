@@ -1,4 +1,3 @@
-```markdown
 # rule-forwarding
 
 A structured collection of custom detection rules built for IBM QRadar SIEM v7.5.0, focused on Active Directory and Windows Security event monitoring.
@@ -40,8 +39,6 @@ Most out-of-the-box SIEM rules are too broad or too noisy. This repo documents r
 ---
 
 ## Structure
-
-```
 rule-forwarding/
 ├── rules/
 │   ├── authentication/
@@ -50,7 +47,6 @@ rule-forwarding/
 │   └── system/
 ├── scripts/
 └── README.md
-```
 
 ---
 
@@ -65,8 +61,3 @@ rule-forwarding/
 ## Status
 
 actively building — more rules being added as they are tested.
-```
-
----
-
-Təmiz, texniki, AI vibe yox. GitHub-a yapışdır! 🎯
