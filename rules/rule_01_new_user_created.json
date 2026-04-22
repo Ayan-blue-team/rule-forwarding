@@ -7,7 +7,7 @@
     "enabled": true,
     "group": "Authentication",
     "notes": "Monitors Windows Event ID 4720 - New user account created in AD/Windows",
-    
+
     "conditions": {
       "operator": "AND",
       "tests": [
@@ -15,12 +15,16 @@
           "test_name": "EventQIDTest",
           "description": "Match User Account Created QIDs",
           "qids": [
+            { "qid": 5000892,   "name": "Success Audit: A user account was created" },
             { "qid": 98750024,  "name": "User account created" },
             { "qid": 110250520, "name": "User Account Created" },
             { "qid": 110252346, "name": "User Account Created" },
             { "qid": 134000646, "name": "User Account Created" },
             { "qid": 5000072,   "name": "User Account Created" },
-            { "qid": 72500126,  "name": "User account enabled or created" }
+            { "qid": 72500126,  "name": "User account enabled or created" },
+            { "qid": 110251648, "name": "User Account Created Under Suspicious Circumstances" },
+            { "qid": 102250054, "name": "System Event - User Account Creation" },
+            { "qid": 57500059,  "name": "User Account Created" }
           ]
         }
       ]
@@ -28,11 +32,21 @@
 
     "actions": {
       "severity": 5,
-      "credibility": 5,
-      "relevance": 5,
+      "credibility": 10,
+      "relevance": 10,
       "ensure_offense": true,
+      "index_offense_by": "Username",
       "annotate_event": "New AD User Account Created - Investigate!",
       "dispatch_new_event": true,
+      "dispatch_event_details": {
+        "event_name": "SOC-QR-001: New User Created",
+        "event_description": "This event occurs when a new user is created",
+        "severity": 5,
+        "credibility": 10,
+        "relevance": 10,
+        "high_level_category": "Authentication",
+        "low_level_category": "User Account Added"
+      },
       "notify": true
     },
 
@@ -46,15 +60,24 @@
 
     "metadata": {
       "created_by": "SOC Team",
-      "created_date": "2026-04-21",
-      "version": "1.0",
+      "created_date": "2026-04-22",
+      "version": "1.1",
+      "log_source": "WindowsAuthServer @ DC-01",
       "mitre_attack": {
         "tactic": "Persistence",
         "technique": "T1136",
-        "technique_name": "Create Account"
+        "technique_name": "Create Account",
+        "sub_technique": "T1136.002",
+        "sub_technique_name": "Domain Account"
       },
       "windows_event_ids": ["4720"],
-      "log_sources": ["Windows Security", "Active Directory"]
+      "log_sources": [
+        "Microsoft Windows Security Event Log",
+        "WindowsAuthServer @ DC-01"
+      ],
+      "tested": true,
+      "test_date": "2026-04-22",
+      "domain": "AZINTELECOM"
     }
   }
 }
