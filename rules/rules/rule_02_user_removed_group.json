@@ -1,0 +1,74 @@
+{
+  "rule": {
+    "id": "SEC-004",
+    "name": "SEC-004 | AD Group Member Removed",
+    "description": "Monitors Windows Event ID 4729/4733 - Member removed from AD group",
+    "type": "EVENT",
+    "enabled": true,
+    "group": "Authentication",
+    "notes": "Monitors Windows Event ID 4729 (Domain group) and 4733 (Local group) - Member removed from AD group",
+
+    "conditions": {
+      "operator": "AND",
+      "tests": [
+        {
+          "test_name": "EventQIDTest",
+          "description": "Match Group Member Removed QIDs",
+          "qids": [
+            { "qid": 5000900, "name": "Success Audit: A member was removed from a security-enabled global group" },
+            { "qid": 5000901, "name": "Success Audit: A member was removed from a security-enabled local group" },
+            { "qid": 5000902, "name": "Success Audit: A member was removed from a security-enabled universal group" }
+          ]
+        }
+      ]
+    },
+
+    "actions": {
+      "severity": 6,
+      "credibility": 8,
+      "relevance": 8,
+      "ensure_offense": true,
+      "index_offense_by": "Username",
+      "annotate_event": "AD Group Member Removed - Investigate!",
+      "dispatch_new_event": true,
+      "dispatch_event_details": {
+        "event_name": "SOC-QR-004: Group Member Removed",
+        "event_description": "A member was removed from an AD group - Investigation required",
+        "severity": 6,
+        "credibility": 8,
+        "relevance": 8,
+        "high_level_category": "Authentication",
+        "low_level_category": "Group Member Removed"
+      },
+      "notify": true
+    },
+
+    "response_limiter": {
+      "enabled": true,
+      "max_responses": 1,
+      "interval": 10,
+      "interval_unit": "minutes",
+      "per": "Username"
+    },
+
+    "metadata": {
+      "created_by": "SOC Team",
+      "created_date": "2026-04-22",
+      "version": "1.0",
+      "log_source": "WindowsAuthServer @ DC-01",
+      "mitre_attack": {
+        "tactic": "Impact",
+        "technique": "T1531",
+        "technique_name": "Account Access Removal"
+      },
+      "windows_event_ids": ["4729", "4733"],
+      "log_sources": [
+        "Microsoft Windows Security Event Log",
+        "WindowsAuthServer @ DC-01"
+      ],
+      "tested": false,
+      "test_date": null,
+      "domain": "AZINTELECOM"
+    }
+  }
+}
